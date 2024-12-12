@@ -1,0 +1,79 @@
+﻿@model IEnumerable<EcartCore.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                    <a asp-action="CreateOrEdit" asp-route-id="@item.CategoryId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CategoryId">Details</a> |
+                    <a asp-for="Delete" asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+       
+       
+      
+            var dataid = $(this).attr('asp-route-id');
+            $.ajax({
+                type: "POST",
+                url: "/Category/Delete",
+                data: JSON.stringify(dataid),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dataid) {
+                    if (dataid != null) {
+                        if (confirm("Do you want to delete this Customer?")) {
+                            alert("Deleted Category: " + dataid);
+                        }
+                    }
+                    else {
+                        alert("Category record not found.");
+                    }
+                },
+                error: function (dataid) {
+                    alert("Error: " + dataid);
+                }
+            });
+       
+    });
+</script>
+

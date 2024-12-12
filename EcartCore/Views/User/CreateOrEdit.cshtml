@@ -1,0 +1,60 @@
+﻿@model EcartCore.Models.AppUser
+
+@{
+    ViewData["Title"] = "CreateOrEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateOrEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <select asp-for="CityId" class="form-control" asp-items="Model.citylist ">
+                    <option>---select item---</option>
+                </select>
+          @*       <span asp-validation-for="CityId" class="text-danger"></span> *@
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Gender</label>
+                @foreach (var item in Model.genderlist)
+                {
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" asp-for = "GenderId" value="@item.Value">
+                        <label class="form-check-label" for="inlineRadio1">@item.Text</label>
+                    </div>
+                }
+             </div>
+            <div class="form-group">
+               <label  class="control-label">Interest</label>
+
+                @for (int i = 0; i < Model.interestlist.Count; i++)
+                {
+                    <input type="hidden" asp-for="@Model.interestlist[i].Value"/>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" asp-for="@Model.interestlist[i].Selected">
+                        <label class="form-check-label">@Model.interestlist[i].Text</label>
+                    </div>
+
+                }
+             </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
